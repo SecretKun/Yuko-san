@@ -90,7 +90,7 @@ async def on_message(message):
     ]
     await message.channel.send(random.choice(default_responses))
 
-# ดึง Token จาก Environment Variable ถ้าไม่มีให้ใช้ Token ที่ใส่ไว้ตรงๆ
-TOKEN = os.getenv('BOT_TOKEN') or 'MTUxMjc2MTUwODgxNDM4OTMyOA.GZAKIg.uKDtzYiPHIzK640htxeMlIpDjEiZT7Cb1bXjMk'
+# ใส่ Token ของคุณที่นี่
+TOKEN = os.getenv('BOT_TOKEN') or 'MTM1MDI2ODYxNzkwNjI0OTk4NA.GH53G0.KjS6pT96vK6cM9A-G-M14m9tY8eR-a3_b4C5d6'
 
 bot.run(TOKEN)
