@@ -8,7 +8,12 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# คำที่เข้าข่ายกวน แซว หรือคำหยาบ
+# 📌 ใส่ ID ห้องที่อนุญาตให้บอทตอบได้ลงในลิสต์นี้ (ใส่ได้หลายห้อง)
+ALLOWED_CHANNELS = [
+    1023235324123557959,
+    1549627034345545758
+]
+
 troll_keywords = [
     'มึง', 'กู', 'ควย', 'สัส', 'เหี้ย', 'ควาย', 'กระจอก', 'ปั่น', 'เสือก', 
     'ตอก', 'กวน', 'ป่วน', 'กาก', 'บอทกาก', 'โง่', 'ควยไร', 'ส้นเท้า'
@@ -23,6 +28,10 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
+    # 🛑 เช็กว่าข้อความมาจากห้องที่อยู่ในลิสต์หรือไม่ ถ้าไม่ใช่ ให้เงียบทันที
+    if message.channel.id not in ALLOWED_CHANNELS:
+        return
+
     if message.content.startswith('!'):
         await bot.process_commands(message)
         return
@@ -35,7 +44,7 @@ async def on_message(message):
         if is_troll:
             responses = [
                 "ตอกอะไรก่อนคะคุณพี่! จะเอาค้อนมาตอกจอ หรืออยากโดนตอกกลับด้วยคำพูด? 😜\n\nยูโกะอยู่ในจอนะ ถ้าแน่จริงลองตอกมุกฮาๆ ใส่ให้ยูโกะขำจนลืมตอบให้ได้ก่อนเหอะ 😏🔥",
-                "ตอกหมาอะไรล่ะ! พิมพ์ให้มันดีๆ หน่อย เดี๋ยวโดนตอกหน้าหงายนะบอกเลย 😜🔥"
+                "ตอกอะไรล่ะ! พิมพ์ให้มันดีๆ หน่อย เดี๋ยวโดนตอกหน้าหงายนะบอกเลย 😜🔥"
             ]
         else:
             responses = [
@@ -70,7 +79,7 @@ async def on_message(message):
         await message.channel.send(random.choice(responses))
         return
 
-    # 4. ถ้าส่งคำหยาบ / กวนตีนมาเต็มๆ (ไม่ตรงกับคำดักข้างบน)
+    # 4. ถ้าส่งคำหยาบ / กวนตีนมาเต็มๆ
     if is_troll:
         troll_responses = [
             "ปากดีจังนะเราอะ! เดี๋ยวตบด้วยคีย์บอร์ดเลยนี่ 😜🔥",
@@ -90,7 +99,7 @@ async def on_message(message):
     ]
     await message.channel.send(random.choice(default_responses))
 
-# ใส่ Token ของคุณที่นี่
-TOKEN = os.getenv('BOT_TOKEN') or 'MTM1MDI2ODYxNzkwNjI0OTk4NA.GH53G0.KjS6pT96vK6cM9A-G-M14m9tY8eR-a3_b4C5d6'
-
-bot.run(TOKEN)
+TOKEN = os.getenv('BOT_TOKEN')
+if TOKEN:
+    bot.run(TOKEN)
+    
