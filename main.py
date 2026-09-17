@@ -79,7 +79,7 @@ async def on_message(message):
         try:
             async with message.channel.typing():
                 response = ai_client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-3.6-flash',
                     contents=message.content,
                     config=types.GenerateContentConfig(
                         system_instruction=SYSTEM_INSTRUCTION,
